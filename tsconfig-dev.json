@@ -18,6 +18,7 @@
   },
   "compilerOptions": {
     "noImplicitAny": false,
+    "module": "None",
     "types": [
       "node"
     ],

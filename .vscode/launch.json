@@ -18,10 +18,12 @@
             "name": "Launch TS",
             "runtimeArgs": [
                 "-r",
-                "ts-node/register"
+                "ts-node/register",
             ],
             "args": [
-                "${file}"
+                "${file}",
+                "--project",
+                "tsconfig-dev.json"
             ]
         },
     ]
