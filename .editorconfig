@@ -32,3 +32,7 @@ end_of_line = crlf
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
+
+# python
+[*.{py}]
+indent_size = 4

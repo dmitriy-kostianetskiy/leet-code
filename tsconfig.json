@@ -19,9 +19,7 @@
   "compilerOptions": {
     "noImplicitAny": false,
     "module": "None",
-    "types": [
-      "node"
-    ],
+    "types": ["node"]
     // typescript options here
   }
 }

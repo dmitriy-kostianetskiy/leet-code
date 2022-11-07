@@ -16,7 +16,7 @@ function zigzagLevelOrder(root: TreeNode | null): number[][] {
     return [];
   }
 
-  const queue: TreeNode[] = [];
+  let queue: TreeNode[] = [];
   queue.push(root);
 
   const result: number[][] = [];
@@ -24,28 +24,27 @@ function zigzagLevelOrder(root: TreeNode | null): number[][] {
   let leftToRight = true;
 
   while (queue.length > 0) {
-    const length = queue.length;
-    const resultItem: number[] = [];
+    const items = queue.slice().map((x) => x.val);
 
-    for (let i = 0; i < length; i++) {
-      const top = queue.shift()!;
-
-      if (leftToRight) {
-        resultItem.push(top.val);
-      } else {
-        resultItem.unshift(top.val);
-      }
-
-      if (top.left) {
-        queue.push(top.left);
-      }
-
-      if (top.right) {
-        queue.push(top.right);
-      }
+    if (!leftToRight) {
+      items.reverse();
     }
 
-    result.push(resultItem);
+    result.push(items);
+
+    queue = queue.flatMap((x) => {
+      const res = [];
+      if (x.left) {
+        res.push(x.left);
+      }
+
+      if (x.right) {
+        res.push(x.right);
+      }
+
+      return res;
+    });
+
     leftToRight = !leftToRight;
   }
 
