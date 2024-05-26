@@ -7,45 +7,24 @@ function lengthOfLIS(nums: number[]): number {
   let maxL = 0;
 
   for (let i = 0; i < n; i++) {
-    const xi = nums[i];
+    const x = nums[i];
 
-    // O(n^2)
-    // let l = 1;
+    let l = 1;
+    let r = maxL + 1;
 
-    // for (; l <= maxL + 1; l++) {
-    //   if (m[l] === -1) {
-    //     break;
-    //   }
+    while (r > l) {
+      const mid = l + Math.floor((r - l) / 2);
 
-    //   const xm = nums[m[l]];
-
-    //   if (xm >= xi) {
-    //     break;
-    //   }
-    // }
-
-    // O(n * log n)
-    let lo = 1;
-    let hi = maxL + 1;
-
-    while (hi > lo) {
-      const mid = lo + Math.floor((hi - lo) / 2);
-
-      const xm = nums[m[mid]];
-      if (xm >= xi) {
-        hi = mid;
+      if (nums[m[mid]] >= x) {
+        r = mid;
       } else {
-        lo = mid + 1;
+        l = mid + 1;
       }
     }
 
-    const l = lo;
-
     m[l] = i;
 
-    if (l > maxL) {
-      maxL = l;
-    }
+    maxL = Math.max(l, maxL);
   }
 
   return maxL;
