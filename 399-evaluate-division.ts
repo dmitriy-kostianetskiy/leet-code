@@ -1,5 +1,5 @@
-namespace EvaluateDivision {
-  export class PriorityQueue<T> {
+namespace Problem399 {
+  class PriorityQueue<T> {
     private heap: T[] = [];
     private heapSize = 0;
 
@@ -144,9 +144,7 @@ function calcEquation(equations: string[][], values: number[], queries: string[]
     if (!allResults[root]) {
       const result: Record<string, number> = {};
 
-      const queue = new EvaluateDivision.PriorityQueue<[string, number]>(
-        ([, v1], [, v2]) => v1 - v2,
-      );
+      const queue = new PriorityQueue<[string, number]>(([, v1], [, v2]) => v1 - v2);
       queue.enqueue([root, 1]);
       result[root] = 1;
 

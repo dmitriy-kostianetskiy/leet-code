@@ -1,38 +1,37 @@
-namespace Problem102 {
+namespace Problem637 {
   class TreeNode {
     val: number;
     left: TreeNode | null;
     right: TreeNode | null;
-    constructor(val: number, left?: TreeNode | null, right?: TreeNode | null) {
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
       this.val = val === undefined ? 0 : val;
       this.left = left === undefined ? null : left;
       this.right = right === undefined ? null : right;
     }
   }
 
-  function zigzagLevelOrder(root: TreeNode | null): number[][] {
-    if (!root) {
-      return [];
-    }
-
-    const levels: number[][] = [];
+  function averageOfLevels(root: TreeNode): number[] {
     const queue: [number, TreeNode][] = [[0, root]];
 
-    let currentLevel = -1;
+    const result: number[] = [];
+
+    let sum = 0;
+    let count = 0;
+
+    let currentLevel = 0;
 
     while (queue.length > 0) {
       const [level, node] = queue.shift()!;
 
-      if (currentLevel !== level) {
+      if (level !== currentLevel) {
+        result.push(sum / count);
+
+        sum = node.val;
+        count = 1;
         currentLevel = level;
-
-        levels[currentLevel] = levels[currentLevel] ?? [];
-      }
-
-      if (currentLevel % 2) {
-        levels[currentLevel].unshift(node.val);
       } else {
-        levels[currentLevel].push(node.val);
+        sum += node.val;
+        count++;
       }
 
       if (node.left) {
@@ -44,6 +43,8 @@ namespace Problem102 {
       }
     }
 
-    return levels;
+    result.push(sum / count);
+
+    return result;
   }
 }

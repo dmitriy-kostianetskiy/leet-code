@@ -1,4 +1,4 @@
-namespace Problem105 {
+namespace Problem106 {
   class TreeNode {
     val: number;
     left: TreeNode | null;
@@ -10,34 +10,31 @@ namespace Problem105 {
     }
   }
 
-  function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
+  function buildTree(inorder: number[], postorder: number[]): TreeNode | null {
+    const n = postorder.length;
     const inorderMap = new Map(inorder.map((value, index) => [value, index]));
 
-    let preorderIndex = 0;
+    let postorderIndex = n - 1;
 
-    function buildTree(l: number, r: number): TreeNode | null {
+    function build(l = 0, r = n - 1) {
       if (l > r) {
         return null;
       }
 
-      const rootValue = preorder[preorderIndex];
+      const rootValue = postorder[postorderIndex];
       const inorderIndex = inorderMap.get(rootValue)!;
 
-      preorderIndex++;
+      postorderIndex--;
+
       const root = new TreeNode(rootValue);
-      root.left = buildTree(l, inorderIndex - 1);
-      root.right = buildTree(inorderIndex + 1, r);
+      root.right = build(inorderIndex + 1, r);
+      root.left = build(l, inorderIndex - 1);
 
       return root;
     }
 
-    return buildTree(0, inorder.length - 1);
+    return build();
   }
 
-  buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7]);
-  // buildTree([-1], [-1]);
-  // buildTree([1, 2, 4, 5, 3, 6, 7], [4, 2, 5, 1, 6, 3, 7]);
-
-  //    3
-  //  9   15
+  const example1 = buildTree([9, 3, 15, 20, 7], [9, 15, 7, 20, 3]);
 }

@@ -1,90 +1,92 @@
-class TrieNode {
-  children: TrieNode[] = [];
-  isEndOfWord: boolean = false;
+namespace Problem208 {
+  class TrieNode {
+    children: TrieNode[] = [];
+    isEndOfWord: boolean = false;
 
-  constructor(public character: string = '') {}
+    constructor(public character: string = '') {}
 
-  getChild(character: string): TrieNode | undefined {
-    const index = this.characterToIndex(character);
+    getChild(character: string): TrieNode | undefined {
+      const index = this.characterToIndex(character);
 
-    return this.children[index];
-  }
-
-  getOrCreateChild(character: string, isEndOfWord: boolean): TrieNode {
-    const index = this.characterToIndex(character);
-
-    if (!this.children[index]) {
-      this.children[index] = new TrieNode(character);
+      return this.children[index];
     }
 
-    if (isEndOfWord) {
-      this.children[index].isEndOfWord = true;
+    getOrCreateChild(character: string, isEndOfWord: boolean): TrieNode {
+      const index = this.characterToIndex(character);
+
+      if (!this.children[index]) {
+        this.children[index] = new TrieNode(character);
+      }
+
+      if (isEndOfWord) {
+        this.children[index].isEndOfWord = true;
+      }
+
+      return this.children[index];
     }
 
-    return this.children[index];
-  }
-
-  private characterToIndex(character: string): number {
-    return character.charCodeAt(0) - 'a'.charCodeAt(0);
-  }
-}
-
-class Trie {
-  private root: TrieNode;
-
-  constructor() {
-    this.root = new TrieNode();
-  }
-
-  insert(word: string): void {
-    let node = this.root;
-
-    for (let i = 0; i < word.length; i++) {
-      node = node.getOrCreateChild(word[i], i === word.length - 1);
+    private characterToIndex(character: string): number {
+      return character.charCodeAt(0) - 'a'.charCodeAt(0);
     }
   }
 
-  search(word: string): boolean {
-    let node: TrieNode = this.root;
+  class Trie {
+    private root: TrieNode;
 
-    for (let i = 0; i < word.length; i++) {
-      const child = node.getChild(word[i]);
+    constructor() {
+      this.root = new TrieNode();
+    }
 
-      if (child) {
-        node = child;
-      } else {
-        return false;
+    insert(word: string): void {
+      let node = this.root;
+
+      for (let i = 0; i < word.length; i++) {
+        node = node.getOrCreateChild(word[i], i === word.length - 1);
       }
     }
 
-    return node.isEndOfWord;
-  }
+    search(word: string): boolean {
+      let node: TrieNode = this.root;
 
-  startsWith(prefix: string): boolean {
-    let node: TrieNode = this.root;
+      for (let i = 0; i < word.length; i++) {
+        const child = node.getChild(word[i]);
 
-    for (let i = 0; i < prefix.length; i++) {
-      const child = node.getChild(prefix[i]);
-
-      if (child) {
-        node = child;
-      } else {
-        return false;
+        if (child) {
+          node = child;
+        } else {
+          return false;
+        }
       }
+
+      return node.isEndOfWord;
     }
 
-    return true;
+    startsWith(prefix: string): boolean {
+      let node: TrieNode = this.root;
+
+      for (let i = 0; i < prefix.length; i++) {
+        const child = node.getChild(prefix[i]);
+
+        if (child) {
+          node = child;
+        } else {
+          return false;
+        }
+      }
+
+      return true;
+    }
   }
+
+  const trie = new Trie();
+  trie.insert('app');
+  trie.insert('apple');
+  trie.insert('beer');
+  trie.insert('jam');
+  trie.insert('rental');
+  console.log(trie.search('apps')); // return False
+  console.log(trie.search('app')); // return True
+
+  // ["Trie","insert","insert","insert","insert","insert","insert","search","search","search","search","search","search","search","search","search","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith"]
+  // [[],["app"],["apple"],["beer"],["add"],["jam"],["rental"],["apps"],["app"],["ad"],["applepie"],["rest"],["jan"],["rent"],["beer"],["jam"],["apps"],["app"],["ad"],["applepie"],["rest"],["jan"],["rent"],["beer"],["jam"]]
 }
-
-const trie = new Trie();
-trie.insert('app');
-trie.insert('apple');
-trie.insert('beer');
-trie.insert('jam');
-trie.insert('rental');
-console.log(trie.search('apps')); // return False
-console.log(trie.search('app')); // return True
-
-// ["Trie","insert","insert","insert","insert","insert","insert","search","search","search","search","search","search","search","search","search","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith","startsWith"]
-// [[],["app"],["apple"],["beer"],["add"],["jam"],["rental"],["apps"],["app"],["ad"],["applepie"],["rest"],["jan"],["rent"],["beer"],["jam"],["apps"],["app"],["ad"],["applepie"],["rest"],["jan"],["rent"],["beer"],["jam"]]

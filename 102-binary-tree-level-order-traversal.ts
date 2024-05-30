@@ -3,14 +3,14 @@ namespace Problem102 {
     val: number;
     left: TreeNode | null;
     right: TreeNode | null;
-    constructor(val: number, left?: TreeNode | null, right?: TreeNode | null) {
+    constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
       this.val = val === undefined ? 0 : val;
       this.left = left === undefined ? null : left;
       this.right = right === undefined ? null : right;
     }
   }
 
-  function zigzagLevelOrder(root: TreeNode | null): number[][] {
+  function levelOrder(root: TreeNode | null): number[][] {
     if (!root) {
       return [];
     }
@@ -29,11 +29,7 @@ namespace Problem102 {
         levels[currentLevel] = levels[currentLevel] ?? [];
       }
 
-      if (currentLevel % 2) {
-        levels[currentLevel].unshift(node.val);
-      } else {
-        levels[currentLevel].push(node.val);
-      }
+      levels[currentLevel].push(node.val);
 
       if (node.left) {
         queue.push([level + 1, node.left]);
