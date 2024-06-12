@@ -1,26 +1,27 @@
-function coinChange(coins: number[], amount: number): number {
-  const dp = new Array(amount + 1).fill(-1);
-  dp[0] = 0;
+namespace Problem322 {
+  function coinChange(coins: number[], amount: number): number {
+    const dp = new Array(amount + 1).fill(-1);
+    dp[0] = 0;
 
-  for (let i = 1; i <= amount; i++) {
-    for (let c of coins) {
-      const diff = i - c;
+    for (let i = 1; i <= amount; i++) {
+      for (let c of coins) {
+        const diff = i - c;
 
-      if (diff < 0 || dp[diff] === -1) {
-        continue;
-      }
+        if (diff < 0 || dp[diff] === -1) {
+          continue;
+        }
 
-      if (dp[i] === -1) {
-        dp[i] = dp[diff] + 1;
-      } else {
-        dp[i] = Math.min(dp[i], dp[diff] + 1);
+        if (dp[i] === -1) {
+          dp[i] = dp[diff] + 1;
+        } else {
+          dp[i] = Math.min(dp[i], dp[diff] + 1);
+        }
       }
     }
+
+    return dp[amount];
   }
-
-  return dp[amount];
-};
-
+}
 
 // O(N * Len (C)) = 1e4 * 12
 //[1,2,5], 11

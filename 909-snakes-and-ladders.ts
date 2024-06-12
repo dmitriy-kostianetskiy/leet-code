@@ -47,11 +47,6 @@ namespace Problem909 {
 
           visited[row][col] = visited[currentCellRow][currentCellCol] + 1;
         }
-
-        visited[row][col] = Math.min(
-          visited[row][col],
-          visited[currentCellRow][currentCellCol] + 1,
-        );
       });
     }
 
